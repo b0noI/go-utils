@@ -6,19 +6,26 @@ import (
 	"path/filepath"
 )
 
-func MaybeCreateProgramFolder(programName string) error {
+func GetProgramFolderPath(programName string) (string, error) {
 	currentUser, err := user.Current()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	folderName := "." + programName
-	folderPath := filepath.Join(currentUser.HomeDir, folderName)
+	return filepath.Join(currentUser.HomeDir, folderName), nil
+}
+
+func MaybeCreateProgramFolder(programName string) (string, error) {
+	folderPath, err := GetProgramFolderPath(programName)
+	if err != nil {
+		return "", err
+	}
 
 	// Create the folder if it doesn't exist
 	err = os.MkdirAll(folderPath, 0755)
 	if err != nil {
-		return err
+		return "", err
 	}
-	return nil
+	return folderPath, nil
 }
