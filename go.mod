@@ -1,4 +1,4 @@
-module github.com/b0noi/go-utils
+module github.com/b0noi/go-utils/v2
 
 go 1.16
 
